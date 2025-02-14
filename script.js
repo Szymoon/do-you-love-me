@@ -5,7 +5,7 @@ const nieButton = document.getElementById('nieButton');
 const takButton = document.getElementById('takButton');
 const messageDiv = document.getElementById('message');
 
-nieButton.addEventListener('click', function(e) {
+nieButton.addEventListener('click', function() {
   noClickCount++;
   if (noClickCount === 1) {
     messageDiv.innerText = "Nie bądź taka nieśmiała!";
@@ -13,7 +13,7 @@ nieButton.addEventListener('click', function(e) {
   } else if (noClickCount === 2) {
     messageDiv.innerText = "Wiem, że mnie kochasz!";
     moveButtonRandomly(nieButton);
-  } else if (noClickCount >= 3) {
+  } else {
     messageDiv.innerText = "Musisz wybrać TAK!";
     moveButtonRandomly(nieButton);
   }
@@ -22,19 +22,19 @@ nieButton.addEventListener('click', function(e) {
 // Kliknięcie "Tak" wyzwala efekt love bomb
 takButton.addEventListener('click', function() {
   messageDiv.innerText = "Kocham Cię również!";
-  // Wyłącz oba przyciski
   takButton.disabled = true;
   nieButton.disabled = true;
   triggerLoveBomb();
 });
 
-// Funkcja przesuwająca przycisk "Nie" losowo wewnątrz kontenera, z ograniczeniem dolnej strefy
+// Funkcja przesuwająca przycisk "Nie" losowo wewnątrz kontenera,
+// z rezerwacją dolnej strefy na wiadomość.
 function moveButtonRandomly(btn) {
   const container = document.querySelector('.container');
   const containerRect = container.getBoundingClientRect();
   const btnRect = btn.getBoundingClientRect();
-  // Pozostaw 50px na dolną część na wiadomość
-  const availableHeight = containerRect.height - btnRect.height - 50;
+  const reserved = 60; // rezerwacja dolnego obszaru
+  const availableHeight = containerRect.height - btnRect.height - reserved;
   const maxX = containerRect.width - btnRect.width;
   const maxY = availableHeight > 0 ? availableHeight : 0;
   const randX = Math.random() * maxX;
@@ -44,72 +44,69 @@ function moveButtonRandomly(btn) {
   btn.style.top = randY + 'px';
 }
 
-// Funkcja wyzwalająca efekty konfetti, serduszek i czterech GIF-ów w narożnikach
+// Funkcja wyzwalająca efekty: konfetti, serduszka i dynamicznie pozycjonowane GIF-y.
 function triggerLoveBomb() {
-  // Uruchom konfetti
   confetti({
     particleCount: 200,
     spread: 70,
     origin: { y: 0.6 }
   });
-
-  // Tworzenie unoszących się serduszek
   createHearts();
-
-  // Dodaj cztery GIF-y w narożnikach białego pudełka
   createCornerGifs();
 }
 
-// Tworzy wiele serduszek i dodaje je do document.body (na 10 sekund)
+// Tworzy unoszące się serduszka, pozostające na ekranie przez 10 sekund.
 function createHearts() {
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement('div');
     heart.className = 'heart';
-    // Losowe pozycje względem całego okna
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.top = Math.random() * window.innerHeight + 'px';
     heart.style.animationDelay = Math.random() * 2 + 's';
     document.body.appendChild(heart);
-    setTimeout(() => {
-      heart.remove();
-    }, 10000);
+    setTimeout(() => { heart.remove(); }, 10000);
   }
 }
 
-// Tworzy cztery GIF-y w narożnikach kontenera
+// Tworzy cztery GIF-y i umieszcza je dynamicznie wokół kontenera.
 function createCornerGifs() {
   const container = document.querySelector('.container');
+  const containerRect = container.getBoundingClientRect();
   const gifUrls = [
     "https://media1.tenor.com/m/RZ7pYcEc-UgAAAAC/bubu-bubu-dudu.gif",
     "https://media1.tenor.com/m/UXLmgQdkDesAAAAd/robert-bri.gif",
     "https://media1.tenor.com/m/ZgEwD09MywgAAAAC/dudu-kissing-bubu-hearts.gif",
     "https://media1.tenor.com/m/N6z7fKyQXCgAAAAd/bubu-dudu-bubu.gif"
   ];
-  
+  const margin = 20;
+  const gifWidth = 120; // standard szerokość GIF-a
   gifUrls.forEach((url, index) => {
     const gif = document.createElement('img');
     gif.src = url;
     gif.alt = "Animowany GIF miłości";
     gif.className = "corner-gif";
-    
-    // Ustal dynamiczne pozycje – blisko krawędzi kontenera
-    if(index === 0) { // lewy górny róg
-      gif.style.top = "-10%";
-      gif.style.left = "-10%";
-    } else if(index === 1) { // prawy górny róg
-      gif.style.top = "-10%";
-      gif.style.right = "-10%";
-    } else if(index === 2) { // lewy dolny róg
-      gif.style.bottom = "-10%";
-      gif.style.left = "-10%";
-    } else if(index === 3) { // prawy dolny róg
-      gif.style.bottom = "-10%";
-      gif.style.right = "-10%";
+    gif.style.width = gifWidth + "px";
+    let top, left;
+    if (index === 0) { // lewy górny
+      top = containerRect.top - gifWidth - margin;
+      left = containerRect.left - margin;
+    } else if (index === 1) { // prawy górny
+      top = containerRect.top - gifWidth - margin;
+      left = containerRect.right + margin - gifWidth;
+    } else if (index === 2) { // lewy dolny
+      top = containerRect.bottom + margin;
+      left = containerRect.left - margin;
+    } else if (index === 3) { // prawy dolny
+      top = containerRect.bottom + margin;
+      left = containerRect.right + margin - gifWidth;
     }
-    
-    container.appendChild(gif);
-    setTimeout(() => {
-      gif.remove();
-    }, 10000);
+    // Upewnij się, że GIF nie wychodzi poza widoczny obszar ekranu:
+    top = Math.max(margin, Math.min(top, window.innerHeight - gifWidth - margin));
+    left = Math.max(margin, Math.min(left, window.innerWidth - gifWidth - margin));
+    gif.style.top = top + "px";
+    gif.style.left = left + "px";
+    // Dodajemy do body, aby nie były przycięte przez kontener
+    document.body.appendChild(gif);
+    setTimeout(() => { gif.remove(); }, 10000);
   });
 }

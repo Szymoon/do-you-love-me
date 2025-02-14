@@ -14,18 +14,17 @@ html, body {
   align-items: center;
 }
 
-/* Duży, responsywny biały kontener */
+/* Duży, responsywny biały kontener – zajmuje większość ekranu */
 .container {
   position: relative;
   text-align: center;
   padding: 20px;
-  background: rgba(255,255,255,0.95);
+  background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   width: 95%;
   max-width: 600px;
-  min-height: 80vh;
-  margin: 20px auto;
+  min-height: 90vh;
+  margin: 10px auto;
   overflow: visible;
 }
 
@@ -76,7 +75,7 @@ h1 {
   margin-top: 20px;
 }
 
-/* Element serduszka dla efektu love bomb */
+/* Styl unoszących się serduszek */
 .heart {
   position: absolute;
   width: 20px;
@@ -87,30 +86,17 @@ h1 {
   animation: float 4s ease-in-out infinite;
 }
 
-/* Animacja unoszenia serduszek */
 @keyframes float {
-  0% {
-    transform: translateY(0) scale(0.8);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateY(-30px) scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0) scale(0.8);
-    opacity: 0.8;
-  }
+  0% { transform: translateY(0) scale(0.8); opacity: 0.8; }
+  50% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(0) scale(0.8); opacity: 0.8; }
 }
 
-/* Styl dla animowanych GIF-ów w narożnikach */
+/* Styl dla animowanych GIF-ów – minimalna stylizacja, pozycja ustalana dynamicznie */
 .corner-gif {
   position: absolute;
-  width: 120px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  animation: fadeIn 1s ease-out forwards;
   z-index: 10;
+  animation: fadeIn 1s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -120,14 +106,7 @@ h1 {
 
 /* Responsywność */
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.5em;
-  }
-  .love-btn {
-    padding: 12px 20px;
-    font-size: 0.9em;
-  }
-  .corner-gif {
-    width: 90px;
-  }
+  h1 { font-size: 1.5em; }
+  .love-btn { padding: 12px 20px; font-size: 0.9em; }
+  .corner-gif { width: 90px; }
 }
