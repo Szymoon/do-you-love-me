@@ -5,7 +5,8 @@ const nieButton = document.getElementById('nieButton');
 const takButton = document.getElementById('takButton');
 const messageDiv = document.getElementById('message');
 
-nieButton.addEventListener('click', function() {
+// Obsługa kliknięcia "Nie"
+nieButton.addEventListener('click', () => {
   noClickCount++;
   if (noClickCount === 1) {
     messageDiv.innerText = "Nie bądź taka nieśmiała!";
@@ -19,16 +20,15 @@ nieButton.addEventListener('click', function() {
   }
 });
 
-// Kliknięcie "Tak" wyzwala efekt love bomb
-takButton.addEventListener('click', function() {
+// Obsługa kliknięcia "Tak"
+takButton.addEventListener('click', () => {
   messageDiv.innerText = "Kocham Cię również!";
-  // Wyłącz oba przyciski
   takButton.disabled = true;
   nieButton.disabled = true;
   triggerLoveBomb();
 });
 
-// Funkcja przesuwająca przycisk "Nie" losowo wewnątrz kontenera
+// Losowe przesunięcie przycisku "Nie" wewnątrz kontenera
 function moveButtonRandomly(btn) {
   const container = document.querySelector('.container');
   const containerRect = container.getBoundingClientRect();
@@ -44,46 +44,40 @@ function moveButtonRandomly(btn) {
   btn.style.top = randY + 'px';
 }
 
-// Funkcja wyzwalająca efekty: konfetti, serduszek oraz czterech GIF-ów
+// Wywołanie konfetti, serduszek i 4 animowanych GIF-ów
 function triggerLoveBomb() {
-  // Uruchom konfetti (subtelny efekt fajerwerków)
+  // Konfetti
   confetti({
     particleCount: 200,
     spread: 70,
     origin: { y: 0.6 }
   });
 
-  // Tworzenie unoszących się serduszek
+  // Serduszka
   createHearts();
 
-  // Dodaj cztery GIF-y w narożnikach białego pudełka
+  // GIF-y w narożnikach
   createCornerGifs();
 }
 
-// Tworzy wiele serduszek i dodaje je do document.body
+// Tworzy unoszące się serduszka w całym oknie
 function createHearts() {
-  // Get the maximum visible width and height
+  // Pobieramy szerokość i wysokość ekranu
   const docWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   const docHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement('div');
     heart.className = 'heart';
-    
-    // Use the docWidth/docHeight instead of window.innerWidth/innerHeight
     heart.style.left = Math.random() * docWidth + 'px';
     heart.style.top = Math.random() * docHeight + 'px';
-    
-    // Slightly randomize the animation timing
     heart.style.animationDelay = Math.random() * 2 + 's';
-    
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 10000);
   }
 }
 
-
-// Tworzy cztery GIF-y w narożnikach kontenera z dynamicznymi pozycjami
+// Dodaje 4 GIF-y w narożnikach kontenera, z dynamicznymi wartościami %
 function createCornerGifs() {
   const container = document.querySelector('.container');
   const gifUrls = [
@@ -99,25 +93,23 @@ function createCornerGifs() {
     gif.alt = "Animowany GIF miłości";
     gif.className = "corner-gif";
     
-    // Używamy wartości procentowych, aby pozycje były dynamiczne
-    if (index === 0) { // lewy górny róg
-      gif.style.top = '-30%';
-      gif.style.left = '-30%';
-    } else if (index === 1) { // prawy górny róg
-      gif.style.top = '-30%';
-      gif.style.right = '-30%';
-    } else if (index === 2) { // lewy dolny róg
-      gif.style.bottom = '-30%';
-      gif.style.left = '-30%';
-    } else if (index === 3) { // prawy dolny róg
-      gif.style.bottom = '-30%';
-      gif.style.right = '-30%';
+    // Mniejsze przesunięcie -10% zamiast -30%, lepiej pasuje na telefonach
+    if (index === 0) { // lewy górny
+      gif.style.top = '-10%';
+      gif.style.left = '-10%';
+    } else if (index === 1) { // prawy górny
+      gif.style.top = '-10%';
+      gif.style.right = '-10%';
+    } else if (index === 2) { // lewy dolny
+      gif.style.bottom = '-10%';
+      gif.style.left = '-10%';
+    } else if (index === 3) { // prawy dolny
+      gif.style.bottom = '-10%';
+      gif.style.right = '-10%';
     }
     
     container.appendChild(gif);
-    // GIF-y pozostają przez 10 sekund
-    setTimeout(() => {
-      gif.remove();
-    }, 100000);
+    // Pozostawiamy GIF przez 100 sekund (zmień w razie potrzeby)
+    setTimeout(() => gif.remove(), 100000);
   });
 }
