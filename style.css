@@ -17,7 +17,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* so the container can be centered properly */
+  position: relative; 
   overflow-x: hidden; /* prevent horizontal scroll issues */
 }
 
