@@ -5,7 +5,7 @@ const nieButton = document.getElementById('nieButton');
 const takButton = document.getElementById('takButton');
 const messageDiv = document.getElementById('message');
 
-nieButton.addEventListener('click', function(e) {
+nieButton.addEventListener('click', function() {
   noClickCount++;
   if (noClickCount === 1) {
     messageDiv.innerText = "Nie bądź taka nieśmiała!";
@@ -13,7 +13,7 @@ nieButton.addEventListener('click', function(e) {
   } else if (noClickCount === 2) {
     messageDiv.innerText = "Wiem, że mnie kochasz!";
     moveButtonRandomly(nieButton);
-  } else if (noClickCount >= 3) {
+  } else {
     messageDiv.innerText = "Musisz wybrać TAK!";
     moveButtonRandomly(nieButton);
   }
@@ -44,7 +44,7 @@ function moveButtonRandomly(btn) {
   btn.style.top = randY + 'px';
 }
 
-// Funkcja wyzwalająca efekty konfetti, serduszek i czterech GIF-ów w narożnikach
+// Funkcja wyzwalająca efekty: konfetti, serduszek oraz czterech GIF-ów
 function triggerLoveBomb() {
   // Uruchom konfetti (subtelny efekt fajerwerków)
   confetti({
@@ -53,7 +53,7 @@ function triggerLoveBomb() {
     origin: { y: 0.6 }
   });
 
-  // Tworzenie unoszących się serduszek, "wylewających się" poza białe pudełko
+  // Tworzenie unoszących się serduszek
   createHearts();
 
   // Dodaj cztery GIF-y w narożnikach białego pudełka
@@ -70,14 +70,14 @@ function createHearts() {
     heart.style.top = Math.random() * window.innerHeight + 'px';
     heart.style.animationDelay = Math.random() * 2 + 's';
     document.body.appendChild(heart);
-    // Zmieniono czas usuwania na 10000ms (10 sekund)
+    // Serduszka zostaną usunięte po 10 sekundach
     setTimeout(() => {
       heart.remove();
     }, 10000);
   }
 }
 
-// Tworzy cztery GIF-y w narożnikach kontenera
+// Tworzy cztery GIF-y w narożnikach kontenera z dynamicznymi pozycjami
 function createCornerGifs() {
   const container = document.querySelector('.container');
   const gifUrls = [
@@ -93,25 +93,25 @@ function createCornerGifs() {
     gif.alt = "Animowany GIF miłości";
     gif.className = "corner-gif";
     
-    // Ustal pozycje zależnie od indeksu
-    if(index === 0) { // lewy górny róg
-      gif.style.top = '-100px';
-      gif.style.left = '-100px';
-    } else if(index === 1) { // prawy górny róg
-      gif.style.top = '-100px';
-      gif.style.right = '-100px';
-    } else if(index === 2) { // lewy dolny róg
-      gif.style.bottom = '-100px';
-      gif.style.left = '-100px';
-    } else if(index === 3) { // prawy dolny róg
-      gif.style.bottom = '-100px';
-      gif.style.right = '-100px';
+    // Używamy wartości procentowych, aby pozycje były dynamiczne
+    if (index === 0) { // lewy górny róg
+      gif.style.top = '-30%';
+      gif.style.left = '-30%';
+    } else if (index === 1) { // prawy górny róg
+      gif.style.top = '-30%';
+      gif.style.right = '-30%';
+    } else if (index === 2) { // lewy dolny róg
+      gif.style.bottom = '-30%';
+      gif.style.left = '-30%';
+    } else if (index === 3) { // prawy dolny róg
+      gif.style.bottom = '-30%';
+      gif.style.right = '-30%';
     }
     
     container.appendChild(gif);
-    // Zmieniono czas usuwania na 10000ms (10 sekund)
+    // GIF-y pozostają przez 10 sekund
     setTimeout(() => {
       gif.remove();
-    }, 100000);
+    }, 10000);
   });
 }
