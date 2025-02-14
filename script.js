@@ -28,17 +28,17 @@ takButton.addEventListener('click', function() {
   triggerLoveBomb();
 });
 
-// Funkcja przesuwająca przycisk "Nie" losowo wewnątrz kontenera
+// Funkcja przesuwająca przycisk "Nie" losowo wewnątrz kontenera, z ograniczeniem dolnej strefy
 function moveButtonRandomly(btn) {
   const container = document.querySelector('.container');
   const containerRect = container.getBoundingClientRect();
   const btnRect = btn.getBoundingClientRect();
-
+  // Pozostaw 50px na dolną część na wiadomość
+  const availableHeight = containerRect.height - btnRect.height - 50;
   const maxX = containerRect.width - btnRect.width;
-  const maxY = containerRect.height - btnRect.height;
+  const maxY = availableHeight > 0 ? availableHeight : 0;
   const randX = Math.random() * maxX;
   const randY = Math.random() * maxY;
-
   btn.style.position = 'absolute';
   btn.style.left = randX + 'px';
   btn.style.top = randY + 'px';
@@ -46,31 +46,30 @@ function moveButtonRandomly(btn) {
 
 // Funkcja wyzwalająca efekty konfetti, serduszek i czterech GIF-ów w narożnikach
 function triggerLoveBomb() {
-  // Uruchom konfetti (subtelny efekt fajerwerków)
+  // Uruchom konfetti
   confetti({
     particleCount: 200,
     spread: 70,
     origin: { y: 0.6 }
   });
 
-  // Tworzenie unoszących się serduszek, "wylewających się" poza białe pudełko
+  // Tworzenie unoszących się serduszek
   createHearts();
 
   // Dodaj cztery GIF-y w narożnikach białego pudełka
   createCornerGifs();
 }
 
-// Tworzy wiele serduszek i dodaje je do document.body
+// Tworzy wiele serduszek i dodaje je do document.body (na 10 sekund)
 function createHearts() {
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement('div');
     heart.className = 'heart';
-    // Losowe pozycje względem okna przeglądarki
+    // Losowe pozycje względem całego okna
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.top = Math.random() * window.innerHeight + 'px';
     heart.style.animationDelay = Math.random() * 2 + 's';
     document.body.appendChild(heart);
-    // Zmieniono czas usuwania na 10000ms (10 sekund)
     setTimeout(() => {
       heart.remove();
     }, 10000);
@@ -93,23 +92,22 @@ function createCornerGifs() {
     gif.alt = "Animowany GIF miłości";
     gif.className = "corner-gif";
     
-    // Ustal pozycje zależnie od indeksu
+    // Ustal dynamiczne pozycje – blisko krawędzi kontenera
     if(index === 0) { // lewy górny róg
-      gif.style.top = '-140px';
-      gif.style.left = '-140px';
+      gif.style.top = "-10%";
+      gif.style.left = "-10%";
     } else if(index === 1) { // prawy górny róg
-      gif.style.top = '-140px';
-      gif.style.right = '-140px';
+      gif.style.top = "-10%";
+      gif.style.right = "-10%";
     } else if(index === 2) { // lewy dolny róg
-      gif.style.bottom = '-140px';
-      gif.style.left = '-140px';
+      gif.style.bottom = "-10%";
+      gif.style.left = "-10%";
     } else if(index === 3) { // prawy dolny róg
-      gif.style.bottom = '-140px';
-      gif.style.right = '-140px';
+      gif.style.bottom = "-10%";
+      gif.style.right = "-10%";
     }
     
     container.appendChild(gif);
-    // Zmieniono czas usuwania na 10000ms (10 sekund)
     setTimeout(() => {
       gif.remove();
     }, 10000);
