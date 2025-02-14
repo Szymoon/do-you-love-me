@@ -95,23 +95,23 @@ function createCornerGifs() {
     
     // Ustal pozycje zależnie od indeksu
     if(index === 0) { // lewy górny róg
-      gif.style.top = '-140px';
-      gif.style.left = '-140px';
+      gif.style.top = '-100px';
+      gif.style.left = '-100px';
     } else if(index === 1) { // prawy górny róg
-      gif.style.top = '-140px';
-      gif.style.right = '-140px';
+      gif.style.top = '-100px';
+      gif.style.right = '-100px';
     } else if(index === 2) { // lewy dolny róg
-      gif.style.bottom = '-140px';
-      gif.style.left = '-140px';
+      gif.style.bottom = '-100px';
+      gif.style.left = '-100px';
     } else if(index === 3) { // prawy dolny róg
-      gif.style.bottom = '-140px';
-      gif.style.right = '-140px';
+      gif.style.bottom = '-100px';
+      gif.style.right = '-100px';
     }
     
     container.appendChild(gif);
     // Zmieniono czas usuwania na 10000ms (10 sekund)
     setTimeout(() => {
       gif.remove();
-    }, 10000);
+    }, 100000);
   });
 }
