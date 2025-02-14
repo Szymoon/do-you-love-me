@@ -62,20 +62,26 @@ function triggerLoveBomb() {
 
 // Tworzy wiele serduszek i dodaje je do document.body
 function createHearts() {
+  // Get the maximum visible width and height
+  const docWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const docHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement('div');
     heart.className = 'heart';
-    // Losowe pozycje względem okna przeglądarki
-    heart.style.left = Math.random() * window.innerWidth + 'px';
-    heart.style.top = Math.random() * window.innerHeight + 'px';
+    
+    // Use the docWidth/docHeight instead of window.innerWidth/innerHeight
+    heart.style.left = Math.random() * docWidth + 'px';
+    heart.style.top = Math.random() * docHeight + 'px';
+    
+    // Slightly randomize the animation timing
     heart.style.animationDelay = Math.random() * 2 + 's';
+    
     document.body.appendChild(heart);
-    // Serduszka zostaną usunięte po 10 sekundach
-    setTimeout(() => {
-      heart.remove();
-    }, 10000);
+    setTimeout(() => heart.remove(), 10000);
   }
 }
+
 
 // Tworzy cztery GIF-y w narożnikach kontenera z dynamicznymi pozycjami
 function createCornerGifs() {
@@ -112,6 +118,6 @@ function createCornerGifs() {
     // GIF-y pozostają przez 10 sekund
     setTimeout(() => {
       gif.remove();
-    }, 10000);
+    }, 100000);
   });
 }
