@@ -9,7 +9,7 @@ const messageDiv = document.getElementById('message');
 nieButton.addEventListener('click', () => {
   noClickCount++;
   if (noClickCount === 1) {
-    messageDiv.innerText = "Nie bądź taka nieśmiała!";
+    messageDiv.innerText = "Nie bądź taka!!!";
     moveButtonRandomly(nieButton);
   } else if (noClickCount === 2) {
     messageDiv.innerText = "Wiem, że mnie kochasz!";
@@ -22,7 +22,7 @@ nieButton.addEventListener('click', () => {
 
 // Obsługa kliknięcia "Tak"
 takButton.addEventListener('click', () => {
-  messageDiv.innerText = "Kocham Cię również!";
+  messageDiv.innerText = "Ja Ciebie też dupcio! xoxo";
   takButton.disabled = true;
   nieButton.disabled = true;
   triggerLoveBomb();
